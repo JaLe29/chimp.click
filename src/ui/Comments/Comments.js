@@ -6,8 +6,8 @@ import TextArea from '../TextArea'
 import {gql} from 'apollo-boost'
 import Comment from './../Comment'
 
-// const API = 'https://suite.chimp.click/graphql'
-const API = 'http://localhost:8080/graphql'
+const API = 'https://suite.chimp.click/graphql'
+// const API = 'http://localhost:8080/graphql'
 
 const client = new ApolloClient({uri: API})
 
