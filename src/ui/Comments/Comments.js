@@ -1,52 +1,66 @@
 import React, {useState, useCallback, useEffect} from 'react'
-import ApolloClient from 'apollo-boost'
-import {useQuery, useMutation} from '@apollo/react-hooks'
-import {ApolloProvider} from '@apollo/react-hooks'
+import {useQuery, useSubscription, useMutation} from '@apollo/react-hooks'
 import TextArea from '../TextArea'
 import {gql} from 'apollo-boost'
 import Comment from './../Comment'
-
-const API = 'https://suite.chimp.click/graphql'
-// const API = 'http://localhost:8080/graphql'
-
-const client = new ApolloClient({uri: API})
+import {ApolloProvider} from '@apollo/react-hooks'
+import PrivateApolloClient from '../core/ApolloClient'
 
 const GET_COMMENTS = gql`
-  query getComments($code: String!) {
-    getComments(where: { code: $code }) {
-      id
-      text
-      createdAt
-      user
-    }
-  }
+	query getComments($code: String!) {
+		getComments(where: { code: $code }) {
+			id
+			text
+			createdAt
+			user
+		authenticationType
+		}
+	}
+`
+
+const SUBSCRIBE_NEW_COMMENT = gql`
+	subscription newComment($code: String!) {
+		newComment (code: $code) {
+			id
+			text
+			createdAt
+			user
+			authenticationType
+		}
+	}
 `
 
 const ADD_COMMENT = gql`
-  mutation createComment($text: String!, $code: String!, $user: String) {
-    createComment(data: { text: $text, code: $code, user: $user }) {
-      id
-      text
-      createdAt
-      user
-    }
-  }
+	mutation createComment($text: String!, $code: String!, $user: String!, $authenticationType: AuthenticationType!) {
+		createComment(data: { text: $text, code: $code, user: $user, authenticationType: $authenticationType }) {
+			id
+			text
+			createdAt
+			user
+		authenticationType,
+		}
+	}
 `
 
 const Comments = (props) => {
-	const {code, authKey, users, user} = props
+	const {code, authKey, users, user, authenticationType} = props
 
 	const [clientData, setClientData] = useState([])
-	const {loading, data, refetch} = useQuery(GET_COMMENTS, {variables: {code}, context: {headers: {authorization: authKey}}})
+	const {loading, data, refetch} = useQuery(GET_COMMENTS, {variables: {code}})
 	const [addMessage] = useMutation(ADD_COMMENT)
+
+	const handleNewCommentReceived = useCallback((inData) => {
+		const {subscriptionData: {data: {newComment}}} = inData
+		setClientData([newComment, ...clientData])
+	}, [setClientData, clientData])
+
+	useSubscription(SUBSCRIBE_NEW_COMMENT, {onSubscriptionData: handleNewCommentReceived, variables: {code}})
+
 	const [inputState, setInputState] = useState('ready')
 
 	const handleSubmit = useCallback(
 		async value => {
-			setInputState('sending')
-			const response = await addMessage({variables: {text: value, code, user}, context: {headers: {authorization: authKey}}})
-			const comment = response.data.createComment
-			setClientData([comment, ...clientData])
+			await addMessage({variables: {authenticationType, text: value, code, user}})
 			setInputState('done')
 		},
 		[addMessage, authKey, clientData, code]
@@ -82,10 +96,10 @@ const Comments = (props) => {
 	)
 }
 
-const CommentsWrapper = ({code, authKey, users, user}) => {
+const CommentsWrapper = ({code, authKey, users, user, authenticationType}) => {
 	return (
-		<ApolloProvider client={client}>
-			<Comments code={code} authKey={authKey} users={users} user={user} />
+		<ApolloProvider client={PrivateApolloClient(authKey)}>
+			<Comments code={code} authKey={authKey} users={users} user={user} authenticationType={authenticationType} />
 		</ApolloProvider>
 	)
 }

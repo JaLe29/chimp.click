@@ -2,11 +2,13 @@ import React, {useCallback} from 'react'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 import css from './comment.module.scss'
 
-const Comment = ({text, user, createdAt, users}) => {
+const Comment = ({text, user, createdAt, users, authenticationType}) => {
 	const getDistance = useCallback(
 		() => formatDistanceToNow(new Date(createdAt), {addSuffix: true}),
 		[createdAt]
 	)
+
+	const isSimpleAuth = authenticationType === 'simple'
 
 	return (
 		<div className={css.comment}>
@@ -14,7 +16,11 @@ const Comment = ({text, user, createdAt, users}) => {
 			<div>
 				<div className={css.headerWrapper}>
 					<div className={css.name}>
-						{users[user] ? users[user].name : 'Unknown user'}
+						{
+							isSimpleAuth
+								? user
+								: users[user] ? users[user].name : 'Unknown user'
+						}
 					</div>
 					<div className={css.date}>
 						{getDistance()}
