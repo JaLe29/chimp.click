@@ -5,6 +5,7 @@ import {gql} from 'apollo-boost'
 import Comment from './../Comment'
 import {ApolloProvider} from '@apollo/react-hooks'
 import PrivateApolloClient from '../core/ApolloClient'
+import {DIRECTION, DEFAULT_DIRECTION, DEFAULT_TEXT_AREA_PLACEHOLDER} from './commentsConst'
 
 const GET_COMMENTS = gql`
 	query getComments($code: String!) {
@@ -43,7 +44,7 @@ const ADD_COMMENT = gql`
 `
 
 const Comments = (props) => {
-	const {code, authKey, users, user, authenticationType} = props
+	const {code, authKey, users, user, authenticationType, direction} = props
 
 	const [clientData, setClientData] = useState([])
 	const {loading, data, refetch} = useQuery(GET_COMMENTS, {variables: {code}})
@@ -71,9 +72,22 @@ const Comments = (props) => {
 		refetch()
 	}, [refetch, code, authKey]);
 
+	const isTopDirection = direction === DIRECTION.TOP
+
+	const textInput = (
+		user && (
+			<TextArea
+				onSubmit={handleSubmit}
+				inputState={inputState}
+				setInputState={setInputState}
+				placeholder={props.textAreaPlaceholder}
+			/>
+		)
+	)
+
 	return (
 		<div>
-			{user && <TextArea onSubmit={handleSubmit} inputState={inputState} setInputState={setInputState} />}
+			{isTopDirection && textInput}
 			{loading ? (
 				'LOADING'
 			) : (
@@ -92,16 +106,25 @@ const Comments = (props) => {
 							)}
 					</>
 				)}
+			{!isTopDirection && textInput}
 		</div>
 	)
 }
 
-const CommentsWrapper = ({code, authKey, users, user, authenticationType}) => {
+const CommentsWrapper = (props) => {
+	const {authKey} = props
+
 	return (
 		<ApolloProvider client={PrivateApolloClient(authKey)}>
-			<Comments code={code} authKey={authKey} users={users} user={user} authenticationType={authenticationType} />
+			<Comments {...props} />
 		</ApolloProvider>
 	)
 }
+
+CommentsWrapper.defaultProps = {
+	direction: DEFAULT_DIRECTION,
+	textAreaPlaceholder: DEFAULT_TEXT_AREA_PLACEHOLDER,
+};
+
 
 export default CommentsWrapper

@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import css from './textArea.module.scss'
+
 const TIMEOUT = 2000
 
 
@@ -9,7 +10,7 @@ const TIMEOUT = 2000
 // 	setInputState: (value: string) => void,
 // }
 
-const TextArea = ({onSubmit, setInputState, inputState}) => {
+const TextArea = ({onSubmit, setInputState, inputState, placeholder}) => {
 	const [isFocused, setFocused] = useState(false)
 	const [value, setValue] = useState('')
 	let blockEnter = false
@@ -66,7 +67,7 @@ const TextArea = ({onSubmit, setInputState, inputState}) => {
 							onFocus={() => setFocused(true)}
 							onBlur={() => setFocused(false)}
 							className={cls.join(' ')}
-							placeholder="Join the discussion..."
+							placeholder={placeholder}
 						/>
 					)
 			}
