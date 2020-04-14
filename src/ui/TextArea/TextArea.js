@@ -1,27 +1,24 @@
 import React, {useState, useEffect} from 'react'
 import css from './textArea.module.scss'
 
+const ENABLE_TIMEOUT_SEND = false
 const TIMEOUT = 2000
 
-
-// type Props = {
-// 	inputState: string,
-// 	onSubmit: (value: string) => void,
-// 	setInputState: (value: string) => void,
-// }
-
-const TextArea = ({onSubmit, setInputState, inputState, placeholder}) => {
+const TextArea = ({className, onSubmit, setInputState, inputState, placeholder}) => {
 	const [isFocused, setFocused] = useState(false)
 	const [value, setValue] = useState('')
+
 	let blockEnter = false
 
 	useEffect(() => {
 		let timer
 		if (inputState === 'done') {
-			timer = setTimeout(() => {
-				setFocused(false)
-				setInputState('ready')
-			}, TIMEOUT)
+			if (ENABLE_TIMEOUT_SEND) {
+				timer = setTimeout(() => {
+					setFocused(false)
+					setInputState('ready')
+				}, TIMEOUT)
+			}
 		}
 
 		return () => {
@@ -37,7 +34,6 @@ const TextArea = ({onSubmit, setInputState, inputState, placeholder}) => {
 			if (transformed.length === 0) return
 			onSubmit(transformed)
 			setValue('')
-
 			return
 		}
 		if (blockEnter) {
@@ -45,17 +41,18 @@ const TextArea = ({onSubmit, setInputState, inputState, placeholder}) => {
 			return
 		}
 		const text = e.target.value || ''
+		if (text === '\n') return
 		setValue(text)
 	}
 
-	const cls = [css.textArea]
+	const cls = [css.textArea, className]
 	if (!isFocused) cls.push(css.notFocused)
 	else cls.push(css.normal)
 
 	return (
 		<>
 			{
-				['sending', 'done'].includes(inputState)
+				ENABLE_TIMEOUT_SEND && ['sending', 'done'].includes(inputState)
 					? (
 						'DONE'
 					)
@@ -71,9 +68,9 @@ const TextArea = ({onSubmit, setInputState, inputState, placeholder}) => {
 						/>
 					)
 			}
-			<div className={css.promo}>
+			{/* <div className={css.promo}>
 				Power by <a href='https://chimp.click' rel='noopener noreferrer' target='_blank'>chimp.click</a>
-			</div>
+			</div> */}
 		</>
 	)
 }

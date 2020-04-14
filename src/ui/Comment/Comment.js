@@ -2,7 +2,7 @@ import React, {useCallback} from 'react'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 import css from './comment.module.scss'
 
-const Comment = ({text, user, createdAt, users, authenticationType}) => {
+const Comment = ({showMessageTime, messageTextClassName, messageHeaderClassName, text, user, createdAt, users, authenticationType}) => {
 	const getDistance = useCallback(
 		() => formatDistanceToNow(new Date(createdAt), {addSuffix: true}),
 		[createdAt]
@@ -14,7 +14,7 @@ const Comment = ({text, user, createdAt, users, authenticationType}) => {
 		<div className={css.comment}>
 			{users[user] && users[user].image && <img className={css.profilePhoto} src={users[user].image} alt={users[user].name} />}
 			<div>
-				<div className={css.headerWrapper}>
+				<div className={[css.headerWrapper, messageHeaderClassName].join(' ')}>
 					<div className={css.name}>
 						{
 							isSimpleAuth
@@ -22,11 +22,17 @@ const Comment = ({text, user, createdAt, users, authenticationType}) => {
 								: users[user] ? users[user].name : 'Unknown user'
 						}
 					</div>
-					<div className={css.date}>
-						{getDistance()}
-					</div>
+					{
+						showMessageTime && (
+							<div className={css.date}>
+								{getDistance()}
+							</div>
+						)
+					}
 				</div>
-				<p className={css.text}>{text}</p>
+				<p className={[css.text, messageTextClassName].join(' ')}>
+					{text}
+				</p>
 			</div>
 		</div>
 	)

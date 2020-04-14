@@ -12,10 +12,17 @@ function CommentsDemo () {
 	return (
 		<Comments
 			authKey={'11fba3722079a7e24f5fd8de8f8351dac12878d3fb672f82c6503012cc2124d4'}
-			code={'/test'}
+			code={'/aw'}
 			users={users}
 			user={'Jakub'}
 			authenticationType={'simple'}
+			direction={'bottom'}
+			messageHeaderClassName={''}
+			messageTextClassName={''}
+			textAreaClassName={''}
+			messagesAreaClassName={''}
+			wrapperClassName={''}
+			showMessageTime={false}
 		/>
 	)
 }
