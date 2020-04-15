@@ -10,7 +10,7 @@ function addCssModules ({config}) {
 					options: {
 						modules: true,
 						// localIdentName: '[name]__[local]___[hash:base64:5]',
-						localIdentName: '[name]__[local]',
+						localIdentName: '[local]',
 						camelCase: true,
 						sourceMap: true
 					}
