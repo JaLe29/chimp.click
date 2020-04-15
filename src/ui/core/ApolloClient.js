@@ -10,7 +10,7 @@ import {HOST, SSL_ENABLED} from './config'
 
 const uri = (protocol) => `${protocol}://${HOST}/graphql`
 
-export default function apolloClient (authorization) {
+export default function apolloClient (clientauthorization) {
 	const httpLink = createHttpLink({
 		uri: uri(`http${SSL_ENABLED ? 's' : ''}`),
 	})
@@ -24,7 +24,7 @@ export default function apolloClient (authorization) {
 			connectionParams: () => {
 				return {
 					headers: {
-						authorization,
+						clientauthorization,
 					},
 				}
 			},
@@ -36,7 +36,7 @@ export default function apolloClient (authorization) {
 		return {
 			headers: {
 				...headers,
-				authorization,
+				clientauthorization,
 			},
 			onError: ({graphQLErrors, networkError}) => {
 				if (graphQLErrors) {

@@ -91,13 +91,11 @@ export default getFilesFolders(srcDirectory)
 			postcss({
 				modules: {
 					generateScopedName: function (name, filename, css) {
-						var path = require("path");
-						var i = css.indexOf("." + name);
-						var line = css.substr(0, i).split(/[\r\n]/).length;
-						var file = path.basename(filename, ".css");
-
-						// return "_" + file + "KUNDICKA" + line + "_" + name;
-						return name
+					// 	var path = require("path");
+					// 	var i = css.indexOf("." + name);
+					// 	var line = css.substr(0, i).split(/[\r\n]/).length;
+					// 	var file = path.basename(filename, ".css");
+						return name;
 					}
 				}
 				// extract: false,
