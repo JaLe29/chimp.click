@@ -4,7 +4,7 @@ import css from './textArea.module.scss'
 const ENABLE_TIMEOUT_SEND = false
 const TIMEOUT = 2000
 
-const TextArea = ({className, onSubmit, setInputState, inputState, placeholder}) => {
+const TextArea = ({className, sendButtonContent, onSubmit, hasSendButton, setInputState, inputState, placeholder}) => {
 	const [isFocused, setFocused] = useState(false)
 	const [value, setValue] = useState('')
 
@@ -45,7 +45,14 @@ const TextArea = ({className, onSubmit, setInputState, inputState, placeholder})
 		setValue(text)
 	}
 
-	const cls = [css.textArea, className]
+	const handleSendClicked = () => {
+		const transformed = value.trim()
+		if (transformed.length === 0) return
+		onSubmit(transformed)
+		setValue('')
+	}
+
+	const cls = [css.textArea]
 	if (!isFocused) cls.push(css.notFocused)
 	else cls.push(css.normal)
 
@@ -57,15 +64,22 @@ const TextArea = ({className, onSubmit, setInputState, inputState, placeholder})
 						'DONE'
 					)
 					: (
-						<textarea
-							value={value}
-							onChange={handleChange}
-							onKeyDown={handleChange}
-							onFocus={() => setFocused(true)}
-							onBlur={() => setFocused(false)}
-							className={cls.join(' ')}
-							placeholder={placeholder}
-						/>
+						<div className={[className, css.textAreaWrapper].join(' ')}>
+							<textarea
+								value={value}
+								onChange={handleChange}
+								onKeyDown={handleChange}
+								onFocus={() => setFocused(true)}
+								onBlur={() => setFocused(false)}
+								className={cls.join(' ')}
+								placeholder={placeholder}
+							/>
+							{hasSendButton && (
+								<button onClick={handleSendClicked}>
+									{sendButtonContent}
+								</button>
+							)}
+						</div>
 					)
 			}
 			{/* <div className={css.promo}>

@@ -1,4 +1,4 @@
- // export const HOST = 'localhost:8080'
+// export const HOST = 'localhost:8080'
 // export const SSL_ENABLED = false
 // export const FULL_HOST = 'http://localhost:8080'
 

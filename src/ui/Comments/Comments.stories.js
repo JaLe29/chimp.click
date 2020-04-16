@@ -11,8 +11,8 @@ function CommentsDemo () {
 	const users = {}
 	return (
 		<Comments
-			authKey={'11fba3722079a7e24f5fd8de8f8351dac12878d3fb672f82c6503012cc2124d4'}
-			code={'/aw'}
+			authKey={'a355c9c98b713de64f17d488cf465c69e8b624c4c1e347693108afc901baebe2'}
+			code={'/test'}
 			users={users}
 			user={'Jakub'}
 			authenticationType={'simple'}
@@ -23,6 +23,7 @@ function CommentsDemo () {
 			messagesAreaClassName={''}
 			wrapperClassName={''}
 			showMessageTime={false}
+			hasSendButton={true}
 		/>
 	)
 }

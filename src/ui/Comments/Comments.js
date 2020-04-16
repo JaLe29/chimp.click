@@ -21,7 +21,9 @@ const Comments = (props) => {
 		users,
 		user,
 		authenticationType,
-		direction
+		direction,
+		hasSendButton,
+		sendButtonContent
 	} = props
 
 	const commentsWrapperRef = useRef()
@@ -83,6 +85,8 @@ const Comments = (props) => {
 				inputState={inputState}
 				setInputState={setInputState}
 				placeholder={props.textAreaPlaceholder}
+				hasSendButton={hasSendButton}
+				sendButtonContent={sendButtonContent}
 			/>
 		)
 	)
@@ -146,6 +150,8 @@ CommentsWrapper.defaultProps = {
 	textAreaPlaceholder: DEFAULT_TEXT_AREA_PLACEHOLDER,
 	showTextWhenEmpty: false,
 	showMessageTime: true,
+	hasSendButton: true,
+	sendButtonContent: 'Send',
 };
 
 

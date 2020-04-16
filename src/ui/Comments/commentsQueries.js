@@ -31,7 +31,7 @@ export const ADD_COMMENT = gql`
 			text
 			createdAt
 			user
-		authenticationType,
+			authenticationType,
 		}
 	}
 `
