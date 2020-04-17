@@ -70,7 +70,7 @@ const Comments = (props) => {
 	const getMessages = useCallback(() => {
 		const isTopDirection = direction === DIRECTION.TOP
 		if (isTopDirection) return data.getComments
-		return data.getComments.reverse()
+		return [...data.getComments].reverse()
 	}, [data, direction])
 
 	const isTopDirection = direction === DIRECTION.TOP
@@ -113,7 +113,7 @@ const Comments = (props) => {
 						{showTextWhenEmpty && clientData.length === 0 && data.getComments.length === 0 ? (
 							'EMPTY'
 						) : (
-								<div className={messagesAreaClassName} ref={commentsWrapperRef} style={{height: 100, overflow: 'auto'}}>
+								<div className={messagesAreaClassName} ref={commentsWrapperRef}>
 									{isTopDirection && clientComments}
 									{getMessages().map(c => (
 										<Comment
