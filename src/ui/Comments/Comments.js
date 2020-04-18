@@ -6,6 +6,7 @@ import {ApolloProvider} from '@apollo/react-hooks'
 import PrivateApolloClient from '../core/ApolloClient'
 import {DIRECTION, DEFAULT_DIRECTION, DEFAULT_TEXT_AREA_PLACEHOLDER} from './commentsConst'
 import {GET_COMMENTS, SUBSCRIBE_NEW_COMMENT, ADD_COMMENT} from './commentsQueries'
+import Error from './../Error'
 
 const Comments = (props) => {
 	const {
@@ -28,7 +29,7 @@ const Comments = (props) => {
 
 	const commentsWrapperRef = useRef()
 	const [clientData, setClientData] = useState([])
-	const {loading, data, refetch} = useQuery(GET_COMMENTS, {variables: {code}})
+	const {loading, error, data, refetch} = useQuery(GET_COMMENTS, {variables: {code}})
 	const [addMessage] = useMutation(ADD_COMMENT)
 
 	const handleNewCommentReceived = useCallback((inData) => {
@@ -103,6 +104,10 @@ const Comments = (props) => {
 		))
 	)
 
+	if (error) {
+		return <Error error={error} />
+	}
+
 	return (
 		<div className={wrapperClassName}>
 			{isTopDirection && textInput}
@@ -137,7 +142,6 @@ const Comments = (props) => {
 
 const CommentsWrapper = (props) => {
 	const {authKey} = props
-
 	return (
 		<ApolloProvider client={PrivateApolloClient(authKey)}>
 			<Comments {...props} />
