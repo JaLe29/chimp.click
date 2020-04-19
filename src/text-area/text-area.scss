@@ -1,0 +1,52 @@
+// @import '../../assets/styles/colors.scss';
+
+.textArea {
+	border-radius: 5px;
+	width: calc(100% - 20px - 10px - 2px);
+	padding: 10px;
+	margin: 5px;
+	border: 1.5px solid;
+	resize: none;
+	font-family: inherit;
+	font-size: inherit;
+
+	&:focus {
+		outline: none;
+	}
+}
+
+.message {
+	height: 70px;
+	width: 100%;
+}
+
+.normal {
+	border-color: red; //$mainBlue;
+}
+
+.notFocused {
+	color: #b7b7b7 !important;
+	border-color: #b7b7b7 !important;
+}
+
+.error {
+	border-color: red !important;
+}
+
+.promo {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	float: right;
+	font-size: 10px;
+	margin-top: -3px;
+	margin-right: 5px;
+
+	img {
+		width: 30px;
+	}
+}
+
+.textAreaWrapper {
+	display: flex;
+}

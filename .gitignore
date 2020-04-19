@@ -1,5 +1,2 @@
-.cache
-node_modules
-storybook-static
-**/junit.xml
-.vs
+node_modules/
+build/
