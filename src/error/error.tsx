@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Error = ({ error }) => {
+const Error = ({ error }: any) => {
 	return (
 		<section>
 			<p>

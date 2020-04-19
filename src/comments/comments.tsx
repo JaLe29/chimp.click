@@ -8,7 +8,7 @@ import { DIRECTION, DEFAULT_DIRECTION, DEFAULT_TEXT_AREA_PLACEHOLDER } from './c
 import { GET_COMMENTS, SUBSCRIBE_NEW_COMMENT, ADD_COMMENT } from './comments-queries'
 import Error from './../error'
 
-const Comments = (props) => {
+const Comments = (props: any) => {
 	const {
 		showMessageTime,
 		wrapperClassName,
@@ -62,7 +62,7 @@ const Comments = (props) => {
 	useEffect(() => {
 		setClientData([])
 		refetch()
-	}, [refetch, code, authKey]);
+	}, [refetch, code, authKey])
 
 	useEffect(() => {
 		// @ts-ignore
@@ -77,7 +77,7 @@ const Comments = (props) => {
 
 	const isTopDirection = direction === DIRECTION.TOP
 	// @ts-ignore
-	if (commentsWrapperRef.current) commentsWrapperRef.current.scrollTop = Number.MAX_SAFE_INTEGER;
+	if (commentsWrapperRef.current) commentsWrapperRef.current.scrollTop = Number.MAX_SAFE_INTEGER
 
 	const textInput = (
 		user && (
@@ -115,34 +115,35 @@ const Comments = (props) => {
 			{loading ? (
 				'LOADING'
 			) : (
-					<>
-						{showTextWhenEmpty && clientData.length === 0 && data.getComments.length === 0 ? (
-							'EMPTY'
-						) : (
-								<div className={messagesAreaClassName} ref={commentsWrapperRef}>
-									{isTopDirection && clientComments}
-									{getMessages().map(c => (
-										<Comment
-											key={c.id}
-											{...c}
-											users={users}
-											messageTextClassName={messageTextClassName}
-											messageHeaderClassName={messageHeaderClassName}
-											showMessageTime={showMessageTime}
-										/>
-									))}
-									{!isTopDirection && clientComments}
-								</div>
-							)}
-					</>
-				)}
+				<>
+					{showTextWhenEmpty && clientData.length === 0 && data.getComments.length === 0 ? (
+						'EMPTY'
+					) : (
+						<div className={messagesAreaClassName} ref={commentsWrapperRef}>
+							{isTopDirection && clientComments}
+							{getMessages().map(c => (
+								<Comment
+									key={c.id}
+									{...c}
+									users={users}
+									messageTextClassName={messageTextClassName}
+									messageHeaderClassName={messageHeaderClassName}
+									showMessageTime={showMessageTime}
+								/>
+							))}
+							{!isTopDirection && clientComments}
+						</div>
+					)}
+				</>
+			)}
 			{!isTopDirection && textInput}
 		</div>
 	)
 }
 
-const CommentsWrapper = (props) => {
+const CommentsWrapper = (props: { authKey: string }) => {
 	const { authKey } = props
+
 	return (
 		<ApolloProvider client={PrivateApolloClient(authKey)}>
 			<Comments {...props} />
@@ -157,7 +158,7 @@ CommentsWrapper.defaultProps = {
 	showMessageTime: true,
 	hasSendButton: true,
 	sendButtonContent: 'Send',
-};
+}
 
 
 export default CommentsWrapper

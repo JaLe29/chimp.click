@@ -4,7 +4,7 @@ import './text-area.scss'
 const ENABLE_TIMEOUT_SEND = false
 const TIMEOUT = 2000
 
-const TextArea = ({ className, sendButtonContent, onSubmit, hasSendButton, setInputState, inputState, placeholder }) => {
+const TextArea = ({ className, sendButtonContent, onSubmit, hasSendButton, setInputState, inputState, placeholder }: any) => {
 	const [isFocused, setFocused] = useState(false)
 	const [value, setValue] = useState('')
 

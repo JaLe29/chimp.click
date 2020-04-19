@@ -2,7 +2,7 @@ import React, { useCallback } from 'react'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 import './comment.scss'
 
-const Comment = ({ showMessageTime, messageTextClassName, messageHeaderClassName, text, user, createdAt, users, authenticationType }) => {
+const Comment = ({ showMessageTime, messageTextClassName, messageHeaderClassName, text, user, createdAt, users, authenticationType }: any) => {
 	const getDistance = useCallback(
 		() => formatDistanceToNow(new Date(createdAt), { addSuffix: true }),
 		[createdAt]
