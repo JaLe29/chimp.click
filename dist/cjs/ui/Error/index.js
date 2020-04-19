@@ -1,1 +1,0 @@
-"use strict";function _interopDefault(e){return e&&"object"==typeof e&&"default"in e?e.default:e}Object.defineProperty(exports,"__esModule",{value:!0});var React=_interopDefault(require("react")),Error=function(e){var t=e.error;return React.createElement("section",null,React.createElement("p",null,"Chimp.click"),React.createElement("b",null,t.message))};exports.default=Error;

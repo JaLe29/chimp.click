@@ -1,1 +1,0 @@
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0});var HOST="suite.chimp.click",SSL_ENABLED=!0,FULL_HOST="https://suite.chimp.click";exports.FULL_HOST=FULL_HOST,exports.HOST=HOST,exports.SSL_ENABLED=SSL_ENABLED;
