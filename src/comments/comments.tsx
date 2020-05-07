@@ -29,7 +29,7 @@ const Comments = (props: any) => {
 
 	const commentsWrapperRef = useRef()
 	const [clientData, setClientData] = useState([])
-	const { loading, error, data, refetch } = useQuery(GET_COMMENTS, { variables: { code } })
+	const { loading, error, data, refetch } = useQuery(GET_COMMENTS, { variables: { productCode: code } })
 	const [addMessage] = useMutation(ADD_COMMENT)
 
 	const handleNewCommentReceived = useCallback((inData) => {

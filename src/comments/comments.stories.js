@@ -9,7 +9,7 @@ export default {
 
 export const Component = () => (
 	<Comments
-		authKey={'a355c9c98b713de64f17d488cf465c69e8b624c4c1e347693108afc901baebe2'}
+		authKey={'1abcc544c87ba1bb2c3b96d7250074c957b53d62e66b701c501eb6aedadafaa66a89ee1194bb3a1772cf12875ef7595759c629c06491e9d10cb1440c37cea005'}
 		code={'/test'}
 		users={{}}
 		user={text('user', 'Chimp')}
