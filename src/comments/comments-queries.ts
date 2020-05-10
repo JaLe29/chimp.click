@@ -1,8 +1,8 @@
 import {gql} from 'apollo-boost'
 
 export const GET_COMMENTS = gql`
-	query getComments($productCode: String!) {
-		getComments(productCode: $productCode) {
+	query getComments($code: String!) {
+		getComments(code: $code) {
 			id
 			text
 			createdAt
@@ -13,8 +13,8 @@ export const GET_COMMENTS = gql`
 `
 
 export const SUBSCRIBE_NEW_COMMENT = gql`
-	subscription newComment($code: String!) {
-		newComment (code: $code) {
+	subscription newComment($code: String!, $clientauthorization: String!) {
+		newComment (code: $code, clientauthorization: $clientauthorization) {
 			id
 			text
 			createdAt

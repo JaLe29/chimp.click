@@ -24,12 +24,12 @@ const Comments = (props: any) => {
 		authenticationType,
 		direction,
 		hasSendButton,
-		sendButtonContent
+		sendButtonContent,
 	} = props
 
 	const commentsWrapperRef = useRef()
 	const [clientData, setClientData] = useState([])
-	const { loading, error, data, refetch } = useQuery(GET_COMMENTS, { variables: { productCode: code } })
+	const { loading, error, data, refetch } = useQuery(GET_COMMENTS, { variables: { code } })
 	const [addMessage] = useMutation(ADD_COMMENT)
 
 	const handleNewCommentReceived = useCallback((inData) => {
@@ -47,7 +47,7 @@ const Comments = (props: any) => {
 
 	}, [setClientData, clientData, commentsWrapperRef])
 
-	useSubscription(SUBSCRIBE_NEW_COMMENT, { onSubscriptionData: handleNewCommentReceived, variables: { code } })
+	useSubscription(SUBSCRIBE_NEW_COMMENT, { onSubscriptionData: handleNewCommentReceived, variables: { code, clientauthorization: authKey } })
 
 	const [inputState, setInputState] = useState('ready')
 
@@ -115,27 +115,27 @@ const Comments = (props: any) => {
 			{loading ? (
 				'LOADING'
 			) : (
-				<>
-					{showTextWhenEmpty && clientData.length === 0 && data.getComments.length === 0 ? (
-						'EMPTY'
-					) : (
-						<div className={messagesAreaClassName} ref={commentsWrapperRef}>
-							{isTopDirection && clientComments}
-							{getMessages().map(c => (
-								<Comment
-									key={c.id}
-									{...c}
-									users={users}
-									messageTextClassName={messageTextClassName}
-									messageHeaderClassName={messageHeaderClassName}
-									showMessageTime={showMessageTime}
-								/>
-							))}
-							{!isTopDirection && clientComments}
-						</div>
-					)}
-				</>
-			)}
+					<>
+						{showTextWhenEmpty && clientData.length === 0 && data.getComments.length === 0 ? (
+							'EMPTY'
+						) : (
+								<div className={messagesAreaClassName} ref={commentsWrapperRef}>
+									{isTopDirection && clientComments}
+									{getMessages().map(c => (
+										<Comment
+											key={c.id}
+											{...c}
+											users={users}
+											messageTextClassName={messageTextClassName}
+											messageHeaderClassName={messageHeaderClassName}
+											showMessageTime={showMessageTime}
+										/>
+									))}
+									{!isTopDirection && clientComments}
+								</div>
+							)}
+					</>
+				)}
 			{!isTopDirection && textInput}
 		</div>
 	)
